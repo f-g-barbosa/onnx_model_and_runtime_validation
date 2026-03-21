@@ -3,9 +3,9 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from detection_visualizer import (draw_detections, parse_detection_outputs, save_annotated_image)
-from run_infer import (create_session, get_input_name, load_image, preprocess_image, print_model_io, run_inference,
-                       save_debug_output)
+from src.postprocess.detection_visualizer import (draw_detections, parse_detection_outputs, save_annotated_image)
+from src.runtime.run_infer import (create_session, get_input_name, load_image, preprocess_image, print_model_io, run_inference,
+                                   save_debug_output)
 
 
 def parse_args():
