@@ -10,8 +10,8 @@ def parse_detection_outputs(outputs: list[np.ndarray]):
     """
     Expected output order:
     outputs[0] -> boxes          shape: (1, N, 4)
-    outputs[1] -> scores         shape: (1, N)
-    outputs[2] -> classes        shape: (1, N)
+    outputs[1] -> classes        shape: (1, N)
+    outputs[2] -> scores         shape: (1, N)
     outputs[3] -> num_detections shape: (1,)
     """
 
@@ -19,7 +19,7 @@ def parse_detection_outputs(outputs: list[np.ndarray]):
         raise RuntimeError(f"Expected at least 4 outputs, got {len(outputs)}")
 
     boxes = outputs[0][0]
-    classes= outputs[1][0]
+    classes = outputs[1][0]
     scores = outputs[2][0]
     num_detections = int(outputs[3][0])
 
@@ -74,7 +74,8 @@ def draw_detections(image: np.ndarray, boxes: np.ndarray, scores: np.ndarray, cl
         text_x = x1
         text_y = max(20, y1 - 10)
 
-        cv2.putText(annotated, label, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, font_scale, (0, 255, 0), text_thickness, cv2.LINE_AA)
+        cv2.putText(annotated, label, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, font_scale, (0, 255, 0),
+                    text_thickness, cv2.LINE_AA)
 
         drawn += 1
 
