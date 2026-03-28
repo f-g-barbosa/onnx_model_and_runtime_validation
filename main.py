@@ -3,7 +3,7 @@ from pathlib import Path
 
 from src.pipeline.batch_validator import build_batch_report, process_image_folder
 from src.runtime.run_infer import create_session, get_input_name, print_model_io
-from src.utils.io_utils import save_summaries_to_json
+from src.utils.io_utils import save_summaries_to_csv, save_summaries_to_json
 
 
 def parse_args():
@@ -34,6 +34,7 @@ def main():
     annotated_output_dir = output_dir / "annotated"
     summaries_json_path = output_dir / "summaries.json"
     batch_report_json_path = output_dir / "batch_report.json"
+    summaries_csv_path = output_dir / "summaries.csv"
 
     if not model_path.exists():
         raise FileNotFoundError(f"Model not found: {model_path}")
@@ -67,9 +68,11 @@ def main():
 
     save_summaries_to_json(all_summaries, summaries_json_path)
     save_summaries_to_json(batch_report, batch_report_json_path)
+    save_summaries_to_csv(all_summaries, summaries_csv_path)
 
     print(f"\nSaved summaries JSON to: {summaries_json_path}")
     print(f"Saved batch report JSON to: {batch_report_json_path}")
+    print(f"Saved summaries CSV to: {summaries_csv_path}")
 
     print("\nSUMMARY")
     for summary in all_summaries:
