@@ -39,3 +39,10 @@ def save_summaries_to_csv(all_summaries, output_path):
                 "debug_dir": summary.get("debug_dir")
             }
             writer.writerow(row)
+
+
+def save_run_metadata_to_json(metadata, output_path):
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    with output_path.open("w", encoding="utf-8") as f:
+        json.dump(metadata, f, indent=2, ensure_ascii=False)
