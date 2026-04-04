@@ -1,5 +1,6 @@
 import argparse
 from pathlib import Path
+from collections import Counter
 
 from src.pipeline.batch_validator import build_batch_report, process_image_folder
 from src.runtime.run_infer import create_session, get_input_name, print_model_io
