@@ -1,6 +1,6 @@
 # ONNX Runtime Validation Pipeline
 
-Production style tooling for ONNX model onboarding, runtime inspection, and batch validation reporting.
+Real world tooling for ONNX model onboarding, runtime inspection, and batch validation reporting.
 
 ## What this project is
 
