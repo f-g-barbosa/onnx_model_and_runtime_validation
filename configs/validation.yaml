@@ -1,0 +1,21 @@
+# Validation Configuration
+# Thresholds and rules for model inference validation
+
+# Minimum confidence score to keep a detection
+score_threshold: 0.5
+
+# Maximum allowed detections per image (null = no limit)
+max_detections_per_image: null
+
+# Minimum detections expected per image (0 = images with no detections are allowed)
+min_detections_per_image: 0
+
+# Allowed class IDs (null = all classes allowed)
+# Example: [0, 1, 2] would only allow classes 0, 1, 2
+allowed_classes: null
+
+# Latency threshold in milliseconds (null = not checked)
+latency_threshold_ms: null
+
+# Check for consistency across images in batch
+check_consistency: true

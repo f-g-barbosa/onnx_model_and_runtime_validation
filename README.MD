@@ -1,52 +1,201 @@
-# ONNX Runtime Validation Pipeline
+# Bank-Ready AI Model Validation & Governance Pipeline
 
 Real world tooling for ONNX model onboarding, runtime inspection, and batch validation reporting.
 
-## What this project is
+**See [ARCHITECTURE.md](ARCHITECTURE.md) for system design and detailed documentation.**
 
-This project was built to validate ONNX object detection models in a way that is closer to day to day engineering work than a one-off inference script.
+## Quick Start
 
-Instead of running a model on a single image and stopping there, this pipeline processes a full folder of inputs, saves per-image artifacts, generates structured summaries, and records run metadata so the execution can be inspected later.
+### 1. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
 
-## Why it matters
+### 2. Configure Settings
+Edit YAML files in `configs/`:
+- `runtime.yaml` - Model path and execution settings
+- `validation.yaml` - Detection thresholds and rules
+- `promotion_policy.yaml` - Policy gates for promotion
+- `preprocessing.yaml` - Image preprocessing parameters
+- `output.yaml` - Output directory configuration
+- `logging.yaml` - Logging settings
 
-A model that runs once is not the same thing as a model that is ready to be evaluated, debugged, and onboarded into a larger workflow.
+### 3. Prepare Input Data
+Place images in `data/` directory (supported: .jpg, .png, .jpeg, .bmp)
 
-When teams work with ONNX models, they often need to answer practical questions:
+### 4. Run Pipeline
 
-- Does the model behave consistently across multiple images?
-- What exactly did it output at runtime?
-- Which images failed?
-- Which images produced detections, and how many?
-- Can the run be reproduced later with the same parameters?
+**Debug with VS Code:**
+- Press **F5** and select a configuration
+- Or use terminal:
 
-This project focuses on those questions.
+```bash
+# Standard run
+python main.py --config-dir configs --input-dir data
 
-## What the pipeline does
+# Dry run (no file output)
+python main.py --config-dir configs --input-dir data --dry-run
 
-- Loads an ONNX model with ONNX Runtime
-- Inspects model inputs and outputs
-- Runs inference over a folder of images
-- Saves raw runtime tensors per image
-- Saves annotated output images
-- Generates per-image summaries in JSON and CSV
-- Generates an aggregated batch report
-- Saves run metadata for traceability
-- Tracks success and failure per image
-- Exposes configurable behavior through CLI flags
+# Custom batch ID
+python main.py --batch-id my_experiment_001
+```
 
-## What this project demonstrates
+## What This Pipeline Does
 
-This is mainly a systems oriented ML project. The goal is not training a model, but building reliable tooling around model execution.
+### Model Onboarding
+✅ Validate ONNX model files
+✅ Inspect model signatures (inputs/outputs)
+✅ Verify execution environment compatibility
 
-It demonstrates:
+### Batch Validation
+✅ Preprocess images (resize, normalize)
+✅ Run inference with profiling
+✅ Parse object detection outputs
+✅ Apply validation rules per image
+✅ Aggregate batch-level statistics
 
-- batch inference  workflow design
-- runtime artifact generation
-- structured reporting
-- failure-tolerant processing
-- reproducibility-minded execution
-- clean separation between CLI orchestration and pipeline logic
+### Governance & Policy
+✅ Automatic policy gates (accuracy, regression, latency)
+✅ Human review workflow
+✅ Decision documentation
+✅ Audit trails with timestamps
+
+### Reporting & Compliance
+✅ Structured JSON batch reports
+✅ Comprehensive audit reports
+✅ Per-image metrics CSV
+✅ Annotated validation images
+✅ JSONL audit event logs
+
+## Output Artifacts
+
+Pipeline generates reports in `outputs/`:
+```
+batch_report_batch_id.json      # Validation results and metrics
+audit_report_batch_id.json      # Governance and policy decisions
+debugs/                         # Raw model outputs (.npy files)
+annotated/                      # Images with drawn bounding boxes
+audit/audit_TIMESTAMP.jsonl     # Event audit trail
+```
+
+## Key Concepts
+
+### Configuration-Driven
+All thresholds and behavior controlled via YAML - no code changes required.
+
+### Type-Safe
+Full type hints and dataclasses for IDE support and runtime safety.
+
+### Structured Logging
+JSON-formatted logs for easy parsing and compliance auditing.
+
+### Policy Enforcement
+Automatic gates check accuracy, regression, latency against configured policies.
+
+### Human Review
+Built-in workflow for governance decisions with audit documentation.
+
+## Architecture
+
+Clean modular design with clear separation of concerns:
+
+```
+core/        → Types, enums, exceptions, schemas
+config/      → YAML configuration management
+logging/     → Structured and audit logging
+runtime/     → ONNX session and inference
+preprocess/  → Image preprocessing
+postprocess/ → Output parsing and visualization
+onboarding/  → Model validation
+validation/  → Inference validation
+governance/  → Policy enforcement
+reporting/   → Report generation
+review/      → Human review workflow
+utils/       → Common utilities
+```
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for complete module documentation.
+
+## Example Usage
+
+### Run Full Validation Pipeline
+```bash
+python main.py --batch-id test_suite_2024_01 --input-dir data
+```
+
+### Dry Run (Testing)
+```bash
+python main.py --batch-id test_suite_2024_01 --input-dir data --dry-run
+```
+
+### Debug Mode
+```bash
+python main.py --batch-id debug_run --input-dir data 2>&1 | head -50
+```
+
+## Typical Workflow
+
+1. **Configure** - Set thresholds, model paths, policies in YAML
+2. **Prepare** - Add images to input directory
+3. **Run** - Execute pipeline with `python main.py`
+4. **Review** - Examine JSON reports and annotated images
+5. **Decide** - Make promotion decision based on policy results
+6. **Audit** - Archive reports for compliance
+
+## Error Handling
+
+Clear, meaningful error messages with custom exception types:
+
+```
+ValidationPipelineError (base)
+├─ ModelNotFoundError
+├─ InvalidModelError
+├─ PreprocessingError
+├─ InferenceError
+├─ ValidationError
+├─ PolicyViolationError
+└─ ConfigurationError
+```
+
+## Performance
+
+- ✅ Batch inference with profiling
+- ✅ Configurable ONNX providers (CPU, GPU)
+- ✅ Memory-efficient processing
+- ✅ Latency monitoring per image
+
+## Enterprise Features
+
+- 📋 Policy-driven promotion gates
+- 🔒 Role-based approvals
+- 📊 Audit-ready reports
+- 🔍 Structured logging
+- ✅ Type safety with hints
+- 🐳 Docker-ready
+- ☸️  Kubernetes-ready
+
+## Testing
+
+```bash
+# Unit tests (add tests/ folder)
+pytest tests/ -v --cov=src
+```
+
+## Extending
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for extending with custom validators, report builders, and policy checks.
+
+## Documentation
+
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** - System design, module docs, best practices
+- **configs/*.yaml** - Configuration templates and explanations
+- **src/** - Inline docstrings in all modules
+
+---
+
+**Last Updated:** January 2024
+**Version:** 1.0.0
+
 
 ## Tech stack
 

@@ -1,52 +1,134 @@
-from __future__ import annotations
+"""
+Detection visualization for object detection models.
+
+Draws bounding boxes and annotations on images.
+"""
 
 from pathlib import Path
-
-import cv2
+from typing import List, Optional
 import numpy as np
 
-
-def parse_detection_outputs(outputs: list[np.ndarray]):
-    """
-    Expected output order:
-    outputs[0] -> boxes          shape: (1, N, 4)
-    outputs[1] -> classes        shape: (1, N)
-    outputs[2] -> scores         shape: (1, N)
-    outputs[3] -> num_detections shape: (1,)
-    """
-
-    if len(outputs) < 4:
-        raise RuntimeError(f"Expected at least 4 outputs, got {len(outputs)}")
-
-    boxes = outputs[0][0]
-    classes = outputs[1][0]
-    scores = outputs[2][0]
-    num_detections = int(outputs[3][0])
-
-    return boxes, scores, classes, num_detections
+from src.core.types import DetectionBox, ParsedDetection
+from src.core.exceptions import PostprocessingError
+from src.utils.image_utils import add_bounding_box, save_image
+from src.logging_utils.logger import StructuredLogger
 
 
-def clip_box(value: int, min_value: int, max_value: int):
-    return max(min_value, min(value, max_value))
+class DetectionVisualizer:
+    """Draws detection boxes and annotations on images."""
 
+    # COCO classes (for reference)
+    COCO_CLASSES = {
+        0: "person", 1: "bicycle", 2: "car", 3: "motorbike", 4: "aeroplane",
+        5: "bus", 6: "train", 7: "truck", 8: "boat", 9: "traffic light",
+        10: "fire hydrant", 11: "stop sign", 12: "parking meter", 13: "bench",
+        14: "cat", 15: "dog", 16: "horse", 17: "sheep", 18: "cow", 19: "elephant",
+    }
 
-def draw_detections(image: np.ndarray, boxes: np.ndarray, scores: np.ndarray, classes: np.ndarray, num_detections: int,
-                    score_threshold: float):
-    annotated = image.copy()
-    height, width = annotated.shape[:2]
+    def __init__(self, logger: Optional[StructuredLogger] = None):
+        """
+        Initialize visualizer.
 
-    font_scale = max(0.5, height / 1000)
-    text_thickness = max(1, int(height / 500))
-    box_thickness = max(2, int(height / 300))
+        Args:
+            logger: Optional logger instance.
+        """
+        self.logger = logger
 
-    drawn = 0
+    def draw_detections(
+        self,
+        image: np.ndarray,
+        parsed_detections: ParsedDetection,
+        original_size: tuple,
+        resized_size: tuple,
+        score_threshold: float = 0.0,
+        class_names: Optional[dict] = None,
+    ) -> np.ndarray:
+        """
+        Draw detection boxes on image.
 
-    for i in range(num_detections):
-        score = float(scores[i])
-        if score < score_threshold:
-            continue
+        Args:
+            image: Original image (BGR).
+            parsed_detections: Parsed detection results.
+            original_size: Original image size (H, W).
+            resized_size: Model input size (H, W).
+            score_threshold: Minimum score to draw.
+            class_names: Optional mapping of class_id to class_name.
 
-        print(f"det {i} | score={score:.3f} | class_id={int(classes[i])} | box(normalized)={boxes[i]}")
+        Returns:
+            Image with drawn detections.
+
+        Raises:
+            PostprocessingError: If drawing fails.
+        """
+        try:
+            if class_names is None:
+                class_names = self.COCO_CLASSES
+
+            img_copy = image.copy()
+            orig_h, orig_w = original_size[:2]
+            resized_h, resized_w = resized_size
+
+            for box in parsed_detections.boxes:
+                if box.score < score_threshold:
+                    continue
+
+                # Scale box coordinates from resized to original size
+                x_min = int(box.x_min * orig_w)
+                y_min = int(box.y_min * orig_h)
+                x_max = int(box.x_max * orig_w)
+                y_max = int(box.y_max * orig_h)
+
+                # Clamp to image bounds
+                x_min = max(0, min(x_min, orig_w - 1))
+                y_min = max(0, min(y_min, orig_h - 1))
+                x_max = max(0, min(x_max, orig_w))
+                y_max = max(0, min(y_max, orig_h))
+
+                # Get class name
+                class_name = class_names.get(box.class_id, f"Class {box.class_id}")
+                label = f"{class_name}: {box.score:.2f}"
+
+                # Draw box
+                add_bounding_box(
+                    img_copy,
+                    x_min, y_min, x_max, y_max,
+                    label=label,
+                    color=(0, 255, 0),
+                    thickness=2,
+                )
+
+            if self.logger:
+                self.logger.debug(
+                    "Drew detections on image",
+                    num_boxes=len(parsed_detections.boxes),
+                )
+
+            return img_copy
+
+        except Exception as e:
+            raise PostprocessingError(f"Failed to draw detections: {e}")
+
+    def save_annotated_image(
+        self,
+        annotated_image: np.ndarray,
+        output_path: Path,
+    ) -> None:
+        """
+        Save annotated image to file.
+
+        Args:
+            annotated_image: Image with annotations.
+            output_path: Output file path.
+
+        Raises:
+            PostprocessingError: If save fails.
+        """
+        try:
+            save_image(annotated_image, output_path)
+            if self.logger:
+                self.logger.info(f"Saved annotated image: {output_path}")
+        except Exception as e:
+            raise PostprocessingError(f"Failed to save annotated image: {e}")
 
         ymin, xmin, ymax, xmax = boxes[i]
 

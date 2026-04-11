@@ -1,0 +1,22 @@
+# Promotion Policy Configuration
+# Policy gates for promoting a model to production
+
+# Minimum accuracy required (percentage)
+min_accuracy_pct: 95.0
+
+# Maximum acceptable regression vs baseline (percentage)
+max_regression_pct: 2.0
+
+# Maximum inference latency allowed (milliseconds)
+# null = no latency constraint
+max_latency_ms: null
+
+# Whether human review is required before promotion
+require_human_review: true
+
+# Roles required for approval
+approval_required_roles:
+  - model_reviewer
+  - ml_ops_engineer
+
+# Additional promotion gates can be added here

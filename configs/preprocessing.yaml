@@ -1,0 +1,15 @@
+# Preprocessing Configuration
+# Image preprocessing settings before inference
+
+resize_width: 640
+resize_height: 640
+
+# Whether to normalize pixel values
+normalize: false
+
+# Normalization parameters (if normalize=true)
+# Example: [0.485, 0.456, 0.406] for ImageNet
+normalization_mean: null
+
+# Normalization standard deviation
+normalization_std: null
