@@ -1,0 +1,22 @@
+# Output Configuration
+# Settings for saving results and artifacts
+
+output_dir: outputs
+
+# Save raw model outputs (.npy files)
+save_debug_outputs: false
+
+# Save annotated images with bounding boxes
+save_annotated_images: false
+
+# Save batch validation report
+save_batch_report: true
+
+# Save full audit report
+save_audit_report: true
+
+# Debug outputs subdirectory
+debug_dir: outputs/debugs
+
+# Annotated images subdirectory
+annotated_dir: outputs/annotated

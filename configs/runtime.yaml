@@ -1,0 +1,19 @@
+# Runtime Configuration for ONNX Inference
+# This file configures model loading and execution settings
+
+model_path: models/ssd_mobilenet_v1_12.onnx
+
+# ONNX Runtime Execution Providers
+# CPU: CPUExecutionProvider
+# GPU: CUDAExecutionProvider (if available)
+# TensorRT: TensorrtExecutionProvider (for nvidia GPUs)
+providers:
+  - CPUExecutionProvider
+
+# Input image dimensions - model expects this size
+input_image_size:
+  - 640
+  - 640
+
+# Verbose logging for runtime operations
+verbose: false

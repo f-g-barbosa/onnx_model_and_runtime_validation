@@ -1,0 +1,56 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Pipeline: Standard Run",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "--config-dir",
+                "configs",
+                "--input-dir",
+                "data"
+            ]
+        },
+        {
+            "name": "Pipeline: Dry Run (No Output)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "--config-dir",
+                "configs",
+                "--input-dir",
+                "data",
+                "--dry-run"
+            ]
+        },
+        {
+            "name": "Pipeline: With Debug Output",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "--config-dir",
+                "configs",
+                "--input-dir",
+                "data",
+                "--batch-id",
+                "trace_batch"
+            ]
+        },
+        {
+            "name": "Python: Attach to Process",
+            "type": "python",
+            "request": "attach",
+            "justMyCode": false
+        }
+    ]
+}

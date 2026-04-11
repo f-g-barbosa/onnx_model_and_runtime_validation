@@ -1,0 +1,15 @@
+# Logging Configuration
+# Structured logging settings for audit trails and debugging
+
+# Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+log_level: INFO
+
+# Optional log file path
+# If null, logs only to console
+log_file: null
+
+# Use structured logging (JSON format)
+structured_logs: true
+
+# Also print to console
+console_output: true
