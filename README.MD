@@ -1,4 +1,4 @@
-# Bank-Ready AI Model Validation & Governance Pipeline
+# Model Validation & Governance Pipeline
 
 Real world tooling for ONNX model onboarding, runtime inspection, and batch validation reporting.
 
