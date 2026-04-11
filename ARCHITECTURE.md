@@ -335,12 +335,12 @@ Structured logs in `outputs/audit/audit_TIMESTAMP.jsonl`:
 
 ## Compliance & Audit
 
-✅ Structured audit logs (JSONL format)
-✅ Policy decision trails
-✅ Human review records  
-✅ Model versioning
-✅ Timestamped reports
-✅ Role-based approvals
+• Structured audit logs (JSONL format)
+• Policy decision trails
+• Human review records  
+• Model versioning
+• Timestamped reports
+• Role-based approvals
 
 ## License
 
