@@ -1,6 +1,6 @@
 # Bank-Ready AI Model Validation & Governance Pipeline
 
-Enterprise-grade ONNX model validation and governance system for regulated environments.
+Real world tooling for ONNX model onboarding, runtime inspection, and batch validation reporting.
 
 **See [ARCHITECTURE.md](ARCHITECTURE.md) for system design and detailed documentation.**
 
