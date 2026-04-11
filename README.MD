@@ -43,29 +43,29 @@ python main.py --batch-id my_experiment_001
 ## What This Pipeline Does
 
 ### Model Onboarding
-✅ Validate ONNX model files
-✅ Inspect model signatures (inputs/outputs)
-✅ Verify execution environment compatibility
+• Validate ONNX model files
+• Inspect model signatures (inputs/outputs)
+• Verify execution environment compatibility
 
 ### Batch Validation
-✅ Preprocess images (resize, normalize)
-✅ Run inference with profiling
-✅ Parse object detection outputs
-✅ Apply validation rules per image
-✅ Aggregate batch-level statistics
+• Preprocess images (resize, normalize)
+• Run inference with profiling
+• Parse object detection outputs
+• Apply validation rules per image
+• Aggregate batch-level statistics
 
 ### Governance & Policy
-✅ Automatic policy gates (accuracy, regression, latency)
-✅ Human review workflow
-✅ Decision documentation
-✅ Audit trails with timestamps
+• Automatic policy gates (accuracy, regression, latency)
+• Human review workflow
+• Decision documentation
+• Audit trails with timestamps
 
 ### Reporting & Compliance
-✅ Structured JSON batch reports
-✅ Comprehensive audit reports
-✅ Per-image metrics CSV
-✅ Annotated validation images
-✅ JSONL audit event logs
+• Structured JSON batch reports
+• Comprehensive audit reports
+• Per-image metrics CSV
+• Annotated validation images
+• JSONL audit event logs
 
 ## Output Artifacts
 
@@ -159,20 +159,20 @@ ValidationPipelineError (base)
 
 ## Performance
 
-- ✅ Batch inference with profiling
-- ✅ Configurable ONNX providers (CPU, GPU)
-- ✅ Memory-efficient processing
-- ✅ Latency monitoring per image
+• Batch inference with profiling
+• Configurable ONNX providers (CPU, GPU)
+• Memory-efficient processing
+• Latency monitoring per image
 
 ## Enterprise Features
 
-- 📋 Policy-driven promotion gates
-- 🔒 Role-based approvals
-- 📊 Audit-ready reports
-- 🔍 Structured logging
-- ✅ Type safety with hints
-- 🐳 Docker-ready
-- ☸️  Kubernetes-ready
+- Policy-driven promotion gates
+- Role-based approvals
+- Audit-ready reports
+- Structured logging
+- Type safety with hints
+- Docker-ready
+- Kubernetes-ready
 
 ## Testing
 
