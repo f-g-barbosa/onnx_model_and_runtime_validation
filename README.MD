@@ -120,12 +120,12 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for complete module documentation.
 
 ### Run Full Validation Pipeline
 ```bash
-python main.py --batch-id <folder> --input-dir data
+python main.py --batch-id my_eperiemnt_001 --input-dir data
 ```
 
 ### Dry Run (Testing)
 ```bash
-python main.py --batch-id <folder> --input-dir data --dry-run
+python main.py --batch-id my_eperiemnt_001 --input-dir data --dry-run
 ```
 
 ### Debug Mode
