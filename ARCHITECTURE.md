@@ -210,8 +210,8 @@ outputs/
 Batch validation report JSON:
 ```json
 {
-  "batch_id": "batch_20240104_120000",
-  "timestamp": "2024-01-04T12:00:00.000000",
+  "batch_id": "batch_20260104_120000",
+  "timestamp": "2026-01-04T12:00:00.000000",
   "summary": {
     "total_images": 100,
     "successful": 95,
@@ -325,7 +325,7 @@ pytest tests/ --cov=src --cov-report=html
 Structured logs in `outputs/audit/audit_TIMESTAMP.jsonl`:
 ```json
 {
-  "timestamp": "2024-01-04T12:00:01.000000",
+  "timestamp": "2026-01-04T12:00:01.000000",
   "event_type": "model_promotion_decision",
   "model_name": "ssd_mobilenet_v1",
   "status": "approved",
