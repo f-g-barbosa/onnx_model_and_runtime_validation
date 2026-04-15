@@ -120,12 +120,12 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for complete module documentation.
 
 ### Run Full Validation Pipeline
 ```bash
-python main.py --batch-id test_suite_2024_01 --input-dir data
+python main.py --batch-id <folder> --input-dir data
 ```
 
 ### Dry Run (Testing)
 ```bash
-python main.py --batch-id test_suite_2024_01 --input-dir data --dry-run
+python main.py --batch-id <folder> --input-dir data --dry-run
 ```
 
 ### Debug Mode
@@ -193,7 +193,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for extending with custom validators, rep
 
 ---
 
-**Last Updated:** January 2024
+**Last Updated:** April 2026
 **Version:** 1.0.0
 
 
